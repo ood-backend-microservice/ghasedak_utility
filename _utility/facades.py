@@ -36,6 +36,9 @@ class ChannelsFacade(ComponentFacade, ABC):
 class FinancialFacade(ComponentFacade, ABC):
     name = 'financial'
 
+    def create_wallet_in_user_creation(self):
+        pass
+
 
 class SubscribeFacade(ComponentFacade, ABC):
     name = 'subscribe'
