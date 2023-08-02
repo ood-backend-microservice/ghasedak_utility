@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from django_nameko import get_pool
 from nameko.rpc import rpc
@@ -36,7 +36,8 @@ class ChannelsFacade(ComponentFacade, ABC):
 class FinancialFacade(ComponentFacade, ABC):
     name = 'financial'
 
-    def create_wallet_in_user_creation(self):
+    @abstractmethod
+    def create_wallet_in_user_creation(self, user_id: int) -> int:
         pass
 
 
