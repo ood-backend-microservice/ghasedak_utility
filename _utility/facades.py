@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import TypeVar, Type
+from abc import ABC
 
 from django_nameko import get_pool
+from nameko.rpc import rpc
 
 from _utility.nameko import DjangoModels
 
@@ -10,9 +10,15 @@ class ComponentFacade(ABC):
     name: str
     models = DjangoModels()
 
-    @abstractmethod
+    @rpc
     def ping(self, service_name):
-        pass
+        print(f'ping from {service_name}')
+        return 'pong'
+
+    @classmethod
+    def get_instance(cls):
+        with get_pool().next() as pool:
+            return getattr(pool, cls.name)
 
 
 class AccountsFacade(ComponentFacade, ABC):
@@ -33,13 +39,4 @@ class FinancialFacade(ComponentFacade, ABC):
 
 class SubscribeFacade(ComponentFacade, ABC):
     name = 'subscribe'
-
-
-T = TypeVar('T')
-
-
-def get_component_facade_object(interface: Type[T]) -> T:
-    with get_pool().next() as pool:
-        return getattr(pool, interface.name)
-
 
