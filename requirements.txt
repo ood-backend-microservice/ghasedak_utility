@@ -1,2 +1,4 @@
-Django==3.2.4
+# python-interface==1.6.1
 nameko==2.14.1
+Django==3.2.4
+django-nameko==0.8.2
